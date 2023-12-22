@@ -12,6 +12,8 @@ class AppSettings {
   AppSettings._internal();
 
   MyIdentity? identity;
+
+  /// this stream will is used to update the product data in the app
   StreamController<ProductUpdateModel> productUpdateStream =
       StreamController<ProductUpdateModel>.broadcast();
 

@@ -10,7 +10,14 @@ part 'orders_state.dart';
 
 class OrdersCubit extends Cubit<OrdersState> {
   OrdersCubit() : super(DetailsInitial());
+
+  /// this list will store the user order list
   List<OrderModel> orders = [];
+
+  /// this function will get the user order bu call the api
+  /// and when every thing goes will it will return one of two state
+  /// [GetAllOrderError] when something when wrong
+  /// and [GetAllOrderLoaded] when every thing is good
   void getOrder() async {
     emit(GetAllOrderLoading());
     final res = await GetOrdersUseCase().call(NoParams());
@@ -24,6 +31,10 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
+  /// this function will delete a order by calling the api
+  /// when every thing goes will it will return
+  /// [DeleteOrderLoaded] and delete the order from the list
+  /// otherwise it will return [DeleteOrderError]
   void deleteOrder(int productId) async {
     emit(DeleteOrderLoading());
     final res = await DeleteOrderUseCase().call(
@@ -38,6 +49,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
   }
 
+  /// this function is just to update the order list
   void updateList(List<OrderModel> newOrder) async {
     emit(GetAllOrderLoading());
     orders.clear();

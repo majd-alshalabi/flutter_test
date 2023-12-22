@@ -10,6 +10,15 @@ part 'splash_screen_state.dart';
 class SplashScreenCubit extends Cubit<SplashScreenState> {
   SplashScreenCubit() : super(SplashScreenInitial());
 
+  /// this function is the init state for the splash screen
+  /// this function used to direct the app to which screen should he
+  /// goes after the splash
+  /// this function check if there is an identity in the database
+  /// if the is it direct the app to the home page
+  /// else it direct the app to login page
+  /// and its return two state
+  /// [SplashScreenError] when something went wrong and
+  /// [SplashScreenLoaded] when every thing done successfully
   void initState() async {
     emit(SplashScreenLoading());
 

@@ -12,7 +12,12 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  /// this list will store the product list the use is searching for
   List<ProductsModel> products = [];
+
+  /// this [streamSubscription] is for listening for the event from the stream
+  /// in the [AppSettings] class so i can know when the comment count change
+  /// so i cant update the comment count in the ui
   StreamSubscription? streamSubscription;
   double? rate;
   @override
@@ -28,6 +33,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         add(UpdateCommentCount(productId: event.productId));
       }
     });
+
+    /// this function is just to update the comment count in the list
+    /// when the event from the stream in the [AppSettings] arrived
     on<UpdateCommentCount>(
       (event, emit) {
         emit(UpdateCommentCountInSearchLoading());
@@ -43,6 +51,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(UpdateCommentCountInSearchLoaded(productId: event.productId));
       },
     );
+
+    ///this function will update the rate slider in the ui
     on<UpdateRate>(
       (event, emit) {
         emit(UpdateRateLoading());
@@ -53,6 +63,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchEvent>(
       (event, emit) async {
         switch (event.runtimeType) {
+          /// this event will call the search api and will
+          /// return one of two state [SearchError]
+          /// when some thing went wrong and
+          /// [SearchLoaded] when everything goes will and then
+          /// it will add the product to the [products] list
           case NewSearchEvents:
             event as NewSearchEvents;
             emit(SearchLoading());

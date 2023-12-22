@@ -27,4 +27,8 @@ class GetProductsError extends HomeState {
 
 class UpdateCommentCountLoading extends HomeState {}
 
-class UpdateCommentCountLoaded extends HomeState {}
+class UpdateCommentCountLoaded extends HomeState {
+  final int productId;
+
+  UpdateCommentCountLoaded({required this.productId});
+}

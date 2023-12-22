@@ -10,6 +10,11 @@ part 'product_event_state.dart';
 class ProductEventCubit extends Cubit<ProductEventState> {
   ProductEventCubit() : super(RateInitial());
 
+  /// this function is for rating a product
+  /// it call the api
+  /// and send the rate to the backend
+  /// when every thing goes will it will return [RateProductLoaded]
+  /// otherwise it will return [RateProductError]
   void rateProduct({required int productId, required double rate}) async {
     emit(RateProductLoading());
 
@@ -19,12 +24,17 @@ class ProductEventCubit extends Cubit<ProductEventState> {
       (l) {
         emit(RateProductError(error: l));
       },
-      (r) async {
+      (r) {
         emit(RateProductLoaded());
       },
     );
   }
 
+  /// this function is for ordering a product it
+  /// call the api sending the [productId]
+  /// and will return one of two state one for
+  /// [OrderProductError] this will be returned when something went wrong
+  /// and [OrderProductLoaded] will be return when all thing goes will
   void orderProduct({required int productId}) async {
     emit(OrderProductLoading());
 

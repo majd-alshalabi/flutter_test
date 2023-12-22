@@ -107,7 +107,8 @@ class DetailsPage extends StatelessWidget {
                           ),
                           BlocBuilder<DetailsCubit, DetailsState>(
                             buildWhen: (previous, current) {
-                              if (current is DetailsUpdateCommentLoaded) {
+                              if (current is DetailsUpdateCommentLoaded &&
+                                  product.id == current.productId) {
                                 return true;
                               }
                               return false;

@@ -116,7 +116,9 @@ class HomePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return BlocBuilder<HomeCubit, HomeState>(
                                   buildWhen: (previous, current) {
-                                    if (current is UpdateCommentCountLoaded) {
+                                    if (current is UpdateCommentCountLoaded && current.productId == context
+                                        .read<HomeCubit>()
+                                        .products[index].id) {
                                       return true;
                                     }
                                     return false;

@@ -11,6 +11,9 @@ import 'package:test_flutter/feature/products/domain/use_cases/get_products_use_
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+  /// this [streamSubscription] is for listening for the event from the stream
+  /// in the [AppSettings] class so i can know when the comment count change
+  /// so i cant update the comment count in the ui
   StreamSubscription? streamSubscription;
 
   HomeCubit() : super(HomeInitial()) {
@@ -27,8 +30,15 @@ class HomeCubit extends Cubit<HomeState> {
     super.close();
   }
 
+  /// this list the for the product list that come from the api
   List<ProductsModel> products = [];
 
+  /// this function is for logging out from the account
+  /// it delete the identity and return one of two state
+  /// [LogOutError] if something went wrong
+  /// and [LogOutLoaded] when logging out done successfully
+  /// when everything goes will it will
+  /// delete the identity from the [AppSettings]
   void logOut() async {
     emit(LogOutLoading());
 
@@ -44,6 +54,8 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// this function is just to update the comment count in the list
+  /// when the event from the stream in the [AppSettings] arrived
   void updateCommentCountForProduct(int productId) {
     emit(UpdateCommentCountLoading());
     int index = products.indexWhere((element) => element.id == productId);
@@ -52,9 +64,14 @@ class HomeCubit extends Cubit<HomeState> {
         products[index].comments = (products[index].comments!) + 1;
       }
     }
-    emit(UpdateCommentCountLoaded());
+    emit(UpdateCommentCountLoaded(productId: productId));
   }
 
+  /// this function is for getting all product from the api
+  /// it return one of two state
+  /// [GetProductsError] when something went wrong
+  /// and [GetProductsLoaded] when everything goes will
+  /// when the api done successfully it add the product to the [products] list
   void getProducts() async {
     emit(GetProductsLoading());
 
@@ -70,6 +87,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// this function is used to update the list in the cubit
   void updateList(List<ProductsModel> newProduct) async {
     emit(GetProductsLoading());
     products.clear();

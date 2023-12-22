@@ -5,7 +5,11 @@ abstract class DetailsState {}
 
 class DetailsInitial extends DetailsState {}
 
-class DetailsUpdateCommentLoaded extends DetailsState {}
+class DetailsUpdateCommentLoaded extends DetailsState {
+  final int productId;
+
+  DetailsUpdateCommentLoaded({required this.productId});
+}
 
 class DetailsUpdateCommentLoading extends DetailsState {}
 

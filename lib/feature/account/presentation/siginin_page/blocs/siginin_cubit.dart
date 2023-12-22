@@ -12,6 +12,14 @@ part 'siginin_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitial());
+
+  /// this function is for login in it accept [LoginParamsModel]
+  /// which contain the login data and return a state base on the api
+  /// response [LoginLoaded] if login done successfully
+  /// [LoginError] if something went wrong
+  /// when api call done successfully this function store
+  /// the user data and token in sqflite database
+  /// and in the [AppSettings] class so it can be access instantly
   void login(LoginParamsModel paramsModel) async {
     emit(LoginLoading());
     final res = await LoginUseCase().call(paramsModel);
